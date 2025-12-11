@@ -1,13 +1,18 @@
 import Image, { StaticImageData } from "next/image";
 import { cn } from "@/lib/utils";
+import { Poppins } from "next/font/google";
 import { Button } from "@/components/ui/button";
 
 import WomenImage from "@/assets/Women.webp";
 import AccessoriesImage from "@/assets/accessories.webp";
 import FootwearImage from "@/assets/footwear.webp";
 import WatchImage from "@/assets/watch.webp";
-import { poppins } from "../Navbar/Navbar";
 
+
+export const poppins = Poppins({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+});
 // CategoryCard Props Type
 interface CategoryCardProps {
   src: StaticImageData;
@@ -36,7 +41,7 @@ const CategoryCard = ({ src, alt, label, classes }: CategoryCardProps) => (
 
 export default function HomeCategories() {
   return (
-    <div className="md:my-12 my-8 w-full">
+    <div className="md:mt-12 md:mb-25 my-6 w-full">
       <div className="w-[90%] md:w-[65%] mx-auto grid grid-cols-12 gap-6 md:gap-8">
         {/* Left Big Image */}
         <CategoryCard
