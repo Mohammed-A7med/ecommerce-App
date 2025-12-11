@@ -24,7 +24,6 @@ const slides = [
     title: "Lookbook Collection",
     align: "right",
   },
-
   {
     image: ThirdSliderImage,
     alt: "A delicious, spicy curry",
@@ -48,12 +47,12 @@ export default function MainSlider() {
   const currentSlide = slides[currentIndex];
 
   return (
-    <div className="relative w-full h-[85vh] overflow-hidden group">
+    <div className="relative w-full h-[60vh] sm:h-[70vh] md:h-[85vh] overflow-hidden">
       {/* BACKGROUND IMAGES */}
       {slides.map((slide, index) => (
         <div
           key={index}
-          className={`absolute inset-0 transition-opacity duration-1200 ${
+          className={`absolute inset-0 transition-opacity duration-1000 ${
             index === currentIndex ? "opacity-100" : "opacity-0"
           }`}
         >
@@ -61,8 +60,9 @@ export default function MainSlider() {
             src={slide.image}
             alt={slide.alt}
             fill
-            className="object-cover"
+            className="object-cover object-center"
             priority={index === 0}
+            sizes="100vw"
           />
         </div>
       ))}
@@ -71,37 +71,39 @@ export default function MainSlider() {
       <div className="relative z-30 h-full flex items-center">
         <div
           className={`
-            w-3/4 mx-auto transition-all duration-700
+            w-full px-6 sm:px-12 md:px-16 lg:px-32 transition-all duration-700
             ${
               currentSlide.align === "right"
-                ? "text-right ml-auto"
-                : "text-left"
+                ? "md:text-right text-center"
+                : "md:text-left text-center"
             }
           `}
         >
-          <p className="text-gray-800 tracking-widest text-sm font-semibold ps-1">
+          <p className="text-white md:text-gray-800 tracking-widest text-xs sm:text-sm font-semibold drop-shadow-lg">
             {currentSlide.subtitle}
           </p>
 
-          <h1 className="text-4xl md:text-6xl font-bold leading-tight mt-3 text-gray-800">
+          <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold leading-tight mt-2 sm:mt-3 text-white md:text-gray-800 drop-shadow-lg">
             {currentSlide.title}
           </h1>
 
-          <Button className="mt-8 px-10 py-6 rounded-full text-lg hover:bg-cyan-500 transition">
+          <Button className="mt-4 sm:mt-6 md:mt-8 px-6 sm:px-8 md:px-10 py-4 sm:py-5 md:py-6 rounded-full text-sm sm:text-base md:text-lg hover:bg-cyan-500 transition shadow-lg">
             Explore Now
           </Button>
         </div>
       </div>
 
       {/* DOTS */}
-      <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-3 z-30">
+      <div className="absolute bottom-4 sm:bottom-6 md:bottom-8 left-0 right-0 flex justify-center gap-2 sm:gap-3 z-30">
         {slides.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentIndex(index)}
             aria-label={`Slide ${index + 1}`}
-            className={`w-3 h-3 rounded-full transition-all ${
-              index === currentIndex ? "bg-gray-800 scale-125" : "bg-gray-400"
+            className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full transition-all cursor-pointer ${
+              index === currentIndex
+                ? "bg-gray-800 md:bg-gray-800 scale-125 shadow-lg"
+                : "bg-gray-400 md:bg-gray-400"
             }`}
           />
         ))}
