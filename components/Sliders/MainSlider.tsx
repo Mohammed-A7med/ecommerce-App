@@ -2,50 +2,67 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
 
 import FristSliderImage from "@/assets/slider_1.jpg";
 import SecSliderImage from "@/assets/slider_2.webp";
 import ThirdSliderImage from "@/assets/slider_3.webp";
+import { Button } from "@/components/ui/button";
 
-const images = [
-  { image: FristSliderImage, alt: "A Frist Slider Image" },
-  { image: SecSliderImage, alt: "A Sec Slider Image" },
-  { image: ThirdSliderImage, alt: "A Third Slider Image" },
+// SLIDER DATA
+const slides = [
+  {
+    image: FristSliderImage,
+    alt: "Steamed dumplings",
+    subtitle: "SUMMER 2025",
+    title: "New Arrival Collection",
+    align: "left",
+  },
+  {
+    image: SecSliderImage,
+    alt: "A delicious, juicy burger",
+    subtitle: "NEW SEASON",
+    title: "Lookbook Collection",
+    align: "right",
+  },
+
+  {
+    image: ThirdSliderImage,
+    alt: "A delicious, spicy curry",
+    subtitle: "SUMMER SALE",
+    title: "Save Up to 70% Today",
+    align: "left",
+  },
 ];
 
 export default function MainSlider() {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % images.length);
+      setCurrentIndex((prev) => (prev + 1) % slides.length);
     }, 2500);
-    return () => clearInterval(interval);
-  }, [currentImageIndex]);
 
-  const isSecImage = images[currentImageIndex].image === SecSliderImage;
+    return () => clearInterval(interval);
+  }, [currentIndex]);
+
+  const currentSlide = slides[currentIndex];
 
   return (
-    <div className="relative w-full h-[70vh] md:h-[85vh] overflow-hidden group">
+    <div className="relative w-full h-[85vh] overflow-hidden group">
       {/* BACKGROUND IMAGES */}
-      {images.map((img, index) => (
+      {slides.map((slide, index) => (
         <div
           key={index}
-          className={`absolute inset-0 transition-opacity duration-1000 ${
-            index === currentImageIndex ? "opacity-100" : "opacity-0"
+          className={`absolute inset-0 transition-opacity duration-1200 ${
+            index === currentIndex ? "opacity-100" : "opacity-0"
           }`}
         >
           <Image
-            src={img.image}
-            alt={img.alt}
+            src={slide.image}
+            alt={slide.alt}
             fill
+            className="object-cover"
             priority={index === 0}
-            className="
-              object-cover 
-              md:object-center 
-              object-[center_top] 
-            "
           />
         </div>
       ))}
@@ -54,44 +71,37 @@ export default function MainSlider() {
       <div className="relative z-30 h-full flex items-center">
         <div
           className={`
-            transition-all duration-700 px-6 md:px-0
-            w-full md:w-3/4 mx-auto
+            w-3/4 mx-auto transition-all duration-700
             ${
-              isSecImage
-                ? "md:text-right md:ml-auto text-center"
-                : "text-center md:text-left"
+              currentSlide.align === "right"
+                ? "text-right ml-auto"
+                : "text-left"
             }
           `}
         >
-          <p className="text-gray-400 ps-1 md:text-gray-600 tracking-widest text-sm font-semibold drop-shadow">
-            {isSecImage ? "NEW SEASON" : "SUMMER 2025"}
+          <p className="text-gray-800 tracking-widest text-sm font-semibold ps-1">
+            {currentSlide.subtitle}
           </p>
 
-          <h1 className="text-3xl md:text-6xl font-bold leading-tight mt-3 text-white md:text-black drop-shadow-lg">
-            {isSecImage ? "Lookbook Collection" : "New Arrival Collection"}
+          <h1 className="text-4xl md:text-6xl font-bold leading-tight mt-3 text-gray-800">
+            {currentSlide.title}
           </h1>
 
-          <Button
-            className="
-              mt-6 md:mt-10 px-8 py-4 md:px-10 md:py-6 
-              rounded-full text-md md:text-lg
-            "
-          >
+          <Button className="mt-8 px-10 py-6 rounded-full text-lg hover:bg-cyan-500 transition">
             Explore Now
           </Button>
         </div>
       </div>
 
       {/* DOTS */}
-      <div className="absolute bottom-6 md:bottom-8 left-0 right-0 flex justify-center gap-3 z-30">
-        {images.map((_, index) => (
+      <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-3 z-30">
+        {slides.map((_, index) => (
           <button
             key={index}
-            onClick={() => setCurrentImageIndex(index)}
-            className={`w-2.5 h-2.5 md:w-3 md:h-3 rounded-full transition-all ${
-              index === currentImageIndex
-                ? "bg-white md:bg-black scale-125 shadow"
-                : "bg-gray-300"
+            onClick={() => setCurrentIndex(index)}
+            aria-label={`Slide ${index + 1}`}
+            className={`w-3 h-3 rounded-full transition-all ${
+              index === currentIndex ? "bg-gray-800 scale-125" : "bg-gray-400"
             }`}
           />
         ))}
