@@ -4,6 +4,7 @@ import HomeCategories from "@/components/HomeCategories/HomeCategories";
 import Section from "@/components/Section/Section";
 import MainSlider from "@/components/Sliders/MainSlider";
 import { Product, ProductData } from "@/types/product";
+import ProductCard from "@/components/Product/ProductCard";
 
 export const poppins = Poppins({
   subsets: ["latin"],
@@ -12,7 +13,7 @@ export const poppins = Poppins({
 
 async function getProducts(): Promise<Product[]> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/products?limit=8`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/products`
   );
 
   if (!res.ok) {
@@ -25,14 +26,17 @@ async function getProducts(): Promise<Product[]> {
 
 export default async function Home() {
   const products = await getProducts();
-  console.log(products);
-  
+
   return (
     <>
       <MainSlider />
       <HomeCategories />
       <Section title="TRENDING" subTitle="Top view in this week">
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+        <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {products.map((product) => (
+            <ProductCard key={product._id} product={product} />
+          ))}
+        </div>
       </Section>
     </>
   );

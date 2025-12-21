@@ -51,7 +51,7 @@ export default function Section({
           </p>
         )}
       </div>
-      <div className="mt-6">{children}</div>
+      <div className="mt-6 w-3/4 mx-auto">{children}</div>
     </section>
   );
 }
